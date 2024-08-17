@@ -1,0 +1,42 @@
+import yfinance as yf
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+# Lista de símbolos de las acciones que quieres analizar
+symbols = ['AAPL', 'AMZN', 'MSFT', 'GOOGL', 'IBM', 'ORCL', 'BABA', 'ADBE', 'CRM', 'SAP']
+
+# Descarga los datos históricos para cada acción
+data = yf.download(symbols, start='2019-02-01', end='2024-12-18')['Adj Close']
+
+# Configurar el tamaño de la figura para la gráfica de precios
+plt.figure(figsize=(14, 8))
+
+# Graficar el precio de cierre ajustado para cada acción
+for symbol in symbols:
+    plt.plot(data[symbol], label=symbol)
+
+# Añadir título y etiquetas
+plt.title('Evolución de acciones de las Top 10 Empresas Cloud')
+plt.xlabel('Fecha')
+plt.ylabel('Precio de Cierre Ajustado (USD)')
+plt.legend()
+plt.grid(True)
+
+# Mostrar la gráfica de precios
+plt.show()
+
+# Calcular la correlación entre los precios de cierre ajustados
+correlation_matrix = data.corr()
+
+# Configurar el tamaño de la figura para el heatmap
+plt.figure(figsize=(10, 8))
+
+# Crear el heatmap de correlación
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+
+# Añadir título
+plt.title('Matriz de Correlación entre Acciones')
+
+# Mostrar el heatmap
+plt.show()
